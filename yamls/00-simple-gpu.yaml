@@ -1,0 +1,37 @@
+apiVersion: v1
+# Vamos a crear un objecto the tipo "Pod"
+kind: Pod
+metadata:
+  # nombre del pod, esto lo veremos cuando ejecutemos kubectl get pods
+  name: demo-cuda
+spec:
+  # Que hago si se muere el pod:
+  #     Never - no lo reinicies
+  #     Always - siempre reinicialo
+  restartPolicy: Never
+  # denro del Pod puede haber 1 o mas contenedores
+  containers:
+    # Identificador del primer contenedor del Pod
+    # En caso de haber multiples contenedores este es el nombre
+    # con el que identificaremos a este contenedor
+    - name: demo-cuda
+      # La imagen que utilizara el contenedor
+      # Si no se especifica un registro, entonces asume que la
+      # imagen se encuentra en hub.docker.com
+      # projecto/image:etiqueta
+      # https://hub.docker.com/layers/nvidia/cuda/11.0.3-devel-ubi8/images/sha256-8da004f01e8cfe7d4fcdd987567c8a0a4ca8fda6fcfd5333913bd92d0fce8691?context=explore
+      image: "nvidia/cuda:11.0.3-devel-ubi8"
+      # comando a ejecutar una vez desplegado el contenedor. 
+      # Normalmente se especifica para sobreescribir el punto de entrada de la imagen
+      command: ["sh", "-c", "sleep infinity"]
+      # Recursos requeridos
+      resources:
+        limits:
+          memory: 4G
+          cpu: 2
+          nvidia.com/gpu: 1
+        # (Opcional): recursos minimos
+        requests:
+          memory: 2G
+          cpu: 1
+          nvidia.com/gpu: 1
