@@ -35,3 +35,20 @@ spec:
           memory: 2G
           cpu: 1
           nvidia.com/gpu: 1
+      # Donde montar los volumenes listados debajo
+      volumeMounts:
+       - mountPath: /s3
+         name: s3-cudi
+  # volumenes que quiero utilizar en mi contenedor
+  volumes:
+   - name: s3-cudi
+     # Tipo de volumen
+     persistentVolumeClaim:
+       # Nombre de la volumen (PVC) en el cluster
+       # Este es el nombre de nuestro S3
+       claimName: example-dataset
+       readOnly: false
+  # (Opcional) Nodo en donde queremos ejecutar
+  # si no se especifica k8s encontrara un nodo adecaudo segun los requerimientos
+  nodeSelector:
+    kubernetes.io/hostname: atocatl-gpu-04.lamod.unam.mx
