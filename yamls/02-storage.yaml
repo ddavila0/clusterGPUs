@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: nginx-4
+  name: nginx
   namespace: default
 spec:
   hostNetwork: true
@@ -9,7 +9,7 @@ spec:
    - name: nginx
      image: nginx
      volumeMounts:
-       - mountPath: /usr/share/nginx/html/s3
+       - mountPath: /s3
          name: webroot
   volumes:
    - name: webroot
